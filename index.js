@@ -9,14 +9,14 @@ const INDEX = path.join(__dirname, 'index.html');
 
 // Start server
 const server = express()
-  .use((req, res) => res.sendFile(INDEX) )
- .listen(PORT, () => console.log("Listening on localhost:" + PORT));
+  .use((req, res) => res.sendFile(INDEX))
+  .listen(PORT, () => console.log("Listening on localhost:" + PORT));
 
 // Initiatlize SocketIO
 const io = socketIO(server);
 
 // Register "connection" events to the WebSocket
-io.on("connection", function(socket) {
+io.on("connection", function (socket) {
   const safeJoin = currentId => {
     socket.leave(previousId);
     socket.join(currentId);
@@ -28,7 +28,7 @@ io.on("connection", function(socket) {
     // join channel provided by client
     socket.join(room, () => console.log("room"))
     // Register "image" events, sent by the client
-    socket.on("image", function(msg) {
+    socket.on("image", function (msg) {
       // Broadcast the "image" event to all other clients in the room
       socket.broadcast.to(room).emit("image", msg);
     });
@@ -36,7 +36,8 @@ io.on("connection", function(socket) {
 
 
 
-  // socket.on("getDoc", function(doc) {
-
-  // })
+  socket.on("getDoc", function (docId) {
+    safeJoin(docId);
+    socket.emit("document", documents[docId]);
+  })
 });
