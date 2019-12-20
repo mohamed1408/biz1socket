@@ -2,29 +2,7 @@
 const express = require("express");
 const socketIO = require("socket.io");
 const path = require("path");
-const bodyParser = require('body-parser');
-const app1 = express();
-// const APIPORT = process.env.PORT;
-// app1.use(bodyParser.json({strict: false}));
 
-// app1.get('/', (request, response) =>  response.send(`hello!`));
-
-app1.listen(8081);
-
-app1.get('/api/data', function (request, response) {
-  // var postBody = request.body;
-  response.send("data received");
-  // postBody.order.details.accept = 0
-  // var json = postBody;
-  // documents[postBody.order.details.id] = json;
-  // console.log(documents);
-  // io.emit("documents", Object.values(documents));
-  });
-//   var server = app.listen(8081, function () {
-//     var host = server.address().address
-//     var port = server.address().port
-//     console.log("Example app listening at http://%s:%s", host, port)
-//  })
 // Configuration
 const PORT = process.env.PORT || 3000;
 const INDEX = path.join(__dirname, 'index.html');
@@ -48,8 +26,7 @@ io.on("connection", function (socket) {
   // Register "join" events, requested by a connected client
   socket.on("join", function (room) {
     // join channel provided by client
-    console.log("room")
-    socket.join(room)
+    socket.join(room, () => console.log("room"))
     // Register "image" events, sent by the client
     socket.on("image", function (msg) {
       // Broadcast the "image" event to all other clients in the room
