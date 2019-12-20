@@ -5,14 +5,14 @@ const path = require("path");
 const bodyParser = require('body-parser');
 const app1 = express();
 // const APIPORT = process.env.PORT;
-app1.use(bodyParser.json({strict: false}));
+// app1.use(bodyParser.json({strict: false}));
 
 // app1.get('/', (request, response) =>  response.send(`hello!`));
 
-app1.listen();
+// app1.listen();
 
-app1.post('/api/data', (request, response) => {
-  var postBody = request.body;
+app1.get('/api/data', function (request, response) {
+  // var postBody = request.body;
   response.send("data received");
   // postBody.order.details.accept = 0
   // var json = postBody;
@@ -20,6 +20,11 @@ app1.post('/api/data', (request, response) => {
   // console.log(documents);
   // io.emit("documents", Object.values(documents));
   });
+  var server = app.listen(8081, function () {
+    var host = server.address().address
+    var port = server.address().port
+    console.log("Example app listening at http://%s:%s", host, port)
+ })
 // Configuration
 const PORT = process.env.PORT || 3000;
 const INDEX = path.join(__dirname, 'index.html');
