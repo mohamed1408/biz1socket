@@ -4,11 +4,12 @@ const socketIO = require("socket.io");
 const path = require("path");
 const bodyParser = require('body-parser');
 const app1 = express();
+const APIPORT = process.env.PORT || 4444;
 app1.use(bodyParser.json({strict: false}));
 
 app1.get('/', (request, response) =>  response.send(`hello!`));
 
-app1.listen(4444, () => console.info('Application running on port 3000'));
+app1.listen(APIPORT, () => console.info('Application running on port 3000'));
 
 app1.post('/api/data', (request, response) => {
   var postBody = request.body;
