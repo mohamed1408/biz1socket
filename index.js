@@ -9,7 +9,7 @@ app1.use(bodyParser.json({strict: false}));
 
 // app1.get('/', (request, response) =>  response.send(`hello!`));
 
-app1.listen(process.env.PORT, () => console.info('Application running on port 3000'));
+app1.listen();
 
 app1.post('/api/data', (request, response) => {
   var postBody = request.body;
