@@ -2,7 +2,23 @@
 const express = require("express");
 const socketIO = require("socket.io");
 const path = require("path");
+const bodyParser = require('body-parser');
+const app1 = express();
+app1.use(bodyParser.json({strict: false}));
 
+app1.get('/', (request, response) =>  response.send(`hello!`));
+
+app1.listen(3000, () => console.info('Application running on port 3000'));
+
+app1.post('/api/data', (request, response) => {
+  var postBody = request.body;
+  response.send("data received");
+  // postBody.order.details.accept = 0
+  // var json = postBody;
+  // documents[postBody.order.details.id] = json;
+  // console.log(documents);
+  // io.emit("documents", Object.values(documents));
+  });
 // Configuration
 const PORT = process.env.PORT || 3000;
 const INDEX = path.join(__dirname, 'index.html');
@@ -17,11 +33,11 @@ const io = socketIO(server);
 
 // Register "connection" events to the WebSocket
 io.on("connection", function (socket) {
-  const safeJoin = currentId => {
-    socket.leave(previousId);
-    socket.join(currentId);
-    previousId = currentId;
-  };
+  // const safeJoin = currentId => {
+  //   socket.leave(previousId);
+  //   socket.join(currentId);
+  //   previousId = currentId;
+  // };
 
   // Register "join" events, requested by a connected client
   socket.on("join", function (room) {
@@ -36,8 +52,8 @@ io.on("connection", function (socket) {
 
 
 
-  socket.on("getDoc", function (docId) {
-    safeJoin(docId);
-    socket.emit("document", documents[docId]);
-  })
+  // socket.on("getDoc", function (docId) {
+  //   safeJoin(docId);
+  //   socket.emit("document", documents[docId]);
+  // })
 });
