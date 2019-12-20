@@ -4,7 +4,7 @@ const socketIO = require("socket.io");
 const path = require("path");
 const bodyParser = require('body-parser');
 const app1 = express();
-const APIPORT = process.env.PORT || 4444;
+const APIPORT = process.env.PORT;
 app1.use(bodyParser.json({strict: false}));
 
 app1.get('/', (request, response) =>  response.send(`hello!`));
