@@ -4,12 +4,12 @@ const socketIO = require("socket.io");
 const path = require("path");
 const bodyParser = require('body-parser');
 const app1 = express();
-const APIPORT = process.env.PORT;
+// const APIPORT = process.env.PORT;
 app1.use(bodyParser.json({strict: false}));
 
-app1.get('/', (request, response) =>  response.send(`hello!`));
+// app1.get('/', (request, response) =>  response.send(`hello!`));
 
-app1.listen(4444, () => console.info('Application running on port 3000'));
+app1.listen(process.env.PORT || 4444, () => console.info('Application running on port 3000'));
 
 app1.post('/api/data', (request, response) => {
   var postBody = request.body;
@@ -43,7 +43,8 @@ io.on("connection", function (socket) {
   // Register "join" events, requested by a connected client
   socket.on("join", function (room) {
     // join channel provided by client
-    socket.join(room, () => console.log("room"))
+    console.log("room")
+    socket.join(room)
     // Register "image" events, sent by the client
     socket.on("image", function (msg) {
       // Broadcast the "image" event to all other clients in the room
