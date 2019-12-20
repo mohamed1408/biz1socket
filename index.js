@@ -20,11 +20,11 @@ app1.get('/api/data', function (request, response) {
   // console.log(documents);
   // io.emit("documents", Object.values(documents));
   });
-  var server = app.listen(8081, function () {
-    var host = server.address().address
-    var port = server.address().port
-    console.log("Example app listening at http://%s:%s", host, port)
- })
+//   var server = app.listen(8081, function () {
+//     var host = server.address().address
+//     var port = server.address().port
+//     console.log("Example app listening at http://%s:%s", host, port)
+//  })
 // Configuration
 const PORT = process.env.PORT || 3000;
 const INDEX = path.join(__dirname, 'index.html');
