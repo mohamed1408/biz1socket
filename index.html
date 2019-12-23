@@ -30,7 +30,8 @@
           // Send an image event to the socket
           var image = event.target.result
           output.src = image;
-          socket.emit("image", image);
+          var jason = {name:"jason"}
+          socket.emit("image", jason);
         };
         // Read file
         fileReader.readAsDataURL(file);
