@@ -1,77 +1,43 @@
-// Setup basic express server
-var express = require('express');
-var app = express();
-var path = require('path');
-var server = require('http').createServer(app);
+// Import packages
+const express = require("express");
 const socketIO = require("socket.io");
-var io = socketIO(server);
-var port = process.env.PORT || 3000;
+const path = require("path");
 
-server.listen(port, () => {
-  console.log('Server listening at port %d', port);
-});
+// Configuration
+const PORT = process.env.PORT || 3000;
+const INDEX = path.join(__dirname, 'index.html');
 
-// Routing
-app.use(express.static(path.join(__dirname, 'public')));
+// Start server
+const server = express()
+  .use((req, res) => res.sendFile(INDEX))
+  .listen(PORT, () => console.log("Listening on localhost:" + PORT));
 
-// Chatroom
+// Initiatlize SocketIO
+const io = socketIO(server);
 
-var numUsers = 0;
+// Register "connection" events to the WebSocket
+io.on("connection", function (socket) {
+  // const safeJoin = currentId => {
+  //   socket.leave(previousId);
+  //   socket.join(currentId);
+  //   previousId = currentId;
+  // };
 
-io.on('connection', (socket) => {
-  var addedUser = false;
-
-  // when the client emits 'new message', this listens and executes
-  socket.on('new message', (data) => {
-    // we tell the client to execute 'new message'
-    socket.broadcast.emit('new message', {
-      username: socket.username,
-      message: data
+  // Register "join" events, requested by a connected client
+  socket.on("join", function (room) {
+    // join channel provided by client
+    socket.join(room, () => console.log("room"))
+    // Register "image" events, sent by the client
+    socket.on("image", function (msg) {
+      // Broadcast the "image" event to all other clients in the room
+      socket.broadcast.to(room).emit("image", msg);
     });
-  });
+  })
 
-  // when the client emits 'add user', this listens and executes
-  socket.on('add user', (username) => {
-    if (addedUser) return;
 
-    // we store the username in the socket session for this client
-    socket.username = username;
-    ++numUsers;
-    addedUser = true;
-    socket.emit('login', {
-      numUsers: numUsers
-    });
-    // echo globally (all clients) that a person has connected
-    socket.broadcast.emit('user joined', {
-      username: socket.username,
-      numUsers: numUsers
-    });
-  });
 
-  // when the client emits 'typing', we broadcast it to others
-  socket.on('typing', () => {
-    socket.broadcast.emit('typing', {
-      username: socket.username
-    });
-  });
-
-  // when the client emits 'stop typing', we broadcast it to others
-  socket.on('stop typing', () => {
-    socket.broadcast.emit('stop typing', {
-      username: socket.username
-    });
-  });
-
-  // when the user disconnects.. perform this
-  socket.on('disconnect', () => {
-    if (addedUser) {
-      --numUsers;
-
-      // echo globally that this client has left
-      socket.broadcast.emit('user left', {
-        username: socket.username,
-        numUsers: numUsers
-      });
-    }
-  });
+  // socket.on("getDoc", function (docId) {
+  //   safeJoin(docId);
+  //   socket.emit("document", documents[docId]);
+  // })
 });
