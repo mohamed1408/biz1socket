@@ -9,19 +9,28 @@
 
     <!-- File input and image output -->
     <input type="file" id="input">
+    <input type="text" id="inputtxt">
+    <input type="text" id="inputtxt1">
     <img src="" id="output">
 
     <!-- Client Code -->
     <script type="text/javascript">
       // Get  WebSocket
-      var socket = io("https://biz1socket-app.herokuapp.com/");
+      var socket = io();
       // Get DOM elements
       var input = document.getElementById("input");
       var output = document.getElementById("output");
+      var txtinput = document.getElementById("inputtxt");
+      var txtinput1 = document.getElementById("inputtxt1");
       // Join a channel
       var room = "test";
       socket.emit("join", room);
       // Listen to file input events
+      document.getElementById("inputtxt").addEventListener("change", function (event){
+        var txt = event.target.value;
+        console.log(txt)
+        socket.emit("text",txt);
+      });
       document.getElementById("input").addEventListener("change", function (event) {
         // Prepeare file reader
         var file = event.target.files[0];
@@ -38,6 +47,9 @@
       socket.on("image", function (image) {
         output.src = image;
       });
+      socket.on("text",function (text){
+        txtinput1.value = text;
+      })
     </script>
   </body>
 </html>

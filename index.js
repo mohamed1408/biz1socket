@@ -29,8 +29,14 @@ io.on("connection", function (socket) {
     socket.join(room, () => console.log("room"))
     // Register "image" events, sent by the client
     socket.on("image", function (msg) {
+      console.log(msg)
       // Broadcast the "image" event to all other clients in the room
       socket.broadcast.to(room).emit("image", msg);
+    });
+    socket.on("text", function (msg) {
+      console.log(msg)
+      // Broadcast the "image" event to all other clients in the room
+      socket.broadcast.to(room).emit("text", msg);
     });
   })
 
