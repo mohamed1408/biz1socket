@@ -26,7 +26,7 @@
       var room = "test";
       socket.emit("join", room);
       // Listen to file input events
-      document.getElementById("inputtxt").addEventListener("change", function (event){
+      document.getElementById("inputtxt").addEventListener("input", function (event){
         var txt = event.target.value;
         console.log(txt)
         socket.emit("text",txt);
