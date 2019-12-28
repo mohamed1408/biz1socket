@@ -34,9 +34,14 @@ io.on("connection", function (socket) {
       socket.broadcast.to(room).emit("image", msg);
     });
     socket.on("text", function (msg) {
-      console.log(msg)
+      console.log(room)
       // Broadcast the "image" event to all other clients in the room
       socket.broadcast.to(room).emit("text", msg);
+    });
+    socket.on("chat", function (msg) {
+      console.log(room)
+      // Broadcast the "image" event to all other clients in the room
+      socket.broadcast.to(room).emit("chat", msg);
     });
   })
 
