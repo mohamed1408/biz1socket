@@ -26,18 +26,18 @@ io.on("connection", function (socket) {
   // Register "join" events, requested by a connected client
   socket.on("join", function (room) {
     // join channel provided by client
-    socket.join(room, () => console.log("room"))
+    socket.join(room)
     // Register "image" events, sent by the client
-    socket.on("image", function (msg) {
-      console.log(msg)
-      // Broadcast the "image" event to all other clients in the room
-      socket.broadcast.to(room).emit("image", msg);
-    });
-    socket.on("text", function (msg) {
-      console.log(room)
-      // Broadcast the "image" event to all other clients in the room
-      socket.broadcast.to(room).emit("text", msg);
-    });
+    // socket.on("image", function (msg) {
+    //   console.log(msg)
+    //   // Broadcast the "image" event to all other clients in the room
+    //   socket.broadcast.to(room).emit("image", msg);
+    // });
+    // socket.on("text", function (msg) {
+    //   console.log(room)
+    //   // Broadcast the "image" event to all other clients in the room
+    //   socket.broadcast.to(room).emit("text", msg);
+    // });
     socket.on("chat", function (msg) {
       console.log(room)
       // Broadcast the "image" event to all other clients in the room

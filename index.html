@@ -63,8 +63,8 @@
   <!-- File input and image output -->
   <input type="text" id="roominput"><button id="joinbtn">Join</button>
   <!-- <input type="file" id="input"> -->
-  <input type="text" id="inputtxt">
-  <input type="text" id="inputtxt1">
+  <!-- <input type="text" id="inputtxt">
+  <input type="text" id="inputtxt1"> -->
   <ul id="messages"></ul>
   <div id="chatdiv">
     <input id="m" autocomplete="off" /><button type="submit" id="sendbtn">Send</button>
@@ -97,11 +97,11 @@
       $('#messages').append($('<li>').text("You:" + msg));
       window.scrollTo(0, document.body.scrollHeight);
     })
-    document.getElementById("inputtxt").addEventListener("input", function (event) {
-      var txt = event.target.value;
-      console.log(txt)
-      socket.emit("text", txt);
-    });
+    // document.getElementById("inputtxt").addEventListener("input", function (event) {
+    //   var txt = event.target.value;
+    //   console.log(txt)
+    //   socket.emit("text", txt);
+    // });
     // document.getElementById("input").addEventListener("change", function (event) {
     //   // Prepeare file reader
     //   var file = event.target.files[0];
@@ -115,12 +115,12 @@
     //   // Read file
     //   fileReader.readAsDataURL(file);
     // })
-    socket.on("image", function (image) {
-      output.src = image;
-    });
-    socket.on("text", function (text) {
-      txtinput1.value = text;
-    });
+    // socket.on("image", function (image) {
+    //   output.src = image;
+    // });
+    // socket.on("text", function (text) {
+    //   txtinput1.value = text;
+    // });
     socket.on("chat", function (text) {
       $('#messages').append($('<li>').text("Stranger:" + text));
       window.scrollTo(0, document.body.scrollHeight);
