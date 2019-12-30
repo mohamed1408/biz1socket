@@ -22,11 +22,12 @@ io.on("connection", function (socket) {
   //   socket.join(currentId);
   //   previousId = currentId;
   // };
-
   // Register "join" events, requested by a connected client
-  socket.on("join", function (room) {
+  socket.on("join", function (room,username) {
     // join channel provided by client
     socket.join(room)
+    socket.room = room;
+    socket.username = username;
     // Register "image" events, sent by the client
     // socket.on("image", function (msg) {
     //   console.log(msg)
@@ -38,11 +39,11 @@ io.on("connection", function (socket) {
     //   // Broadcast the "image" event to all other clients in the room
     //   socket.broadcast.to(room).emit("text", msg);
     // });
-    socket.on("chat", function (msg) {
-      console.log(room)
-      // Broadcast the "image" event to all other clients in the room
-      socket.broadcast.to(room).emit("chat", msg);
     });
+    socket.on("chat", function (msg) {
+      // console.log(room)
+      // Broadcast the "image" event to all other clients in the room
+      socket.broadcast.to(socket.room).emit("chat", '<strong style="text-transform:uppercase">' + socket.username + '</strong>: '+msg);
   })
 
 

@@ -61,11 +61,11 @@
 <body>
 
   <!-- File input and image output -->
-  <input type="text" id="roominput"><button id="joinbtn">Join</button>
+  <input type="text" id="nameinput" placeholder="enter your name"><input type="text" id="roominput" placeholder="enter room name"><button id="joinbtn">Join</button>
   <!-- <input type="file" id="input"> -->
   <!-- <input type="text" id="inputtxt">
   <input type="text" id="inputtxt1"> -->
-  <ul id="messages"></ul>
+  <ul id="messages" style="font-size: larger;"></ul>
   <div id="chatdiv">
     <input id="m" autocomplete="off" /><button type="submit" id="sendbtn">Send</button>
   </div>
@@ -79,6 +79,7 @@
     var input = document.getElementById("input");
     var txtinput = document.getElementById("inputtxt");
     var txtinput1 = document.getElementById("inputtxt1");
+    var msgtxtbx = document.getElementById("m");
     // Join a channel
     // Listen to file input events
     var room = "";
@@ -90,12 +91,16 @@
       msg = event.target.value;
     })
     document.getElementById("joinbtn").addEventListener("click", function (event) {
-      socket.emit("join", room);
+      socket.emit("join", $('#roominput').val(),$('#nameinput').val());
+      $('#roominput').hide();
+      $('#joinbtn').hide();
+      $('#nameinput').hide();
     })
     document.getElementById("sendbtn").addEventListener("click", function (event) {
-      socket.emit("chat", msg);
-      $('#messages').append($('<li>').text("You:" + msg));
+      socket.emit("chat",$('#m').val());
+      $('#messages').append($('<li>').html("<strong>YOU</strong>:"+ $('#m').val()));
       window.scrollTo(0, document.body.scrollHeight);
+      msgtxtbx.value = "";
     })
     // document.getElementById("inputtxt").addEventListener("input", function (event) {
     //   var txt = event.target.value;
@@ -122,7 +127,7 @@
     //   txtinput1.value = text;
     // });
     socket.on("chat", function (text) {
-      $('#messages').append($('<li>').text("Stranger:" + text));
+      $('#messages').append($('<li>').html(text));
       window.scrollTo(0, document.body.scrollHeight);
     });
   </script>
