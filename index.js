@@ -45,6 +45,9 @@ io.on("connection", function (socket) {
       // Broadcast the "image" event to all other clients in the room
       socket.broadcast.to(socket.room).emit("chat", '<strong style="text-transform:uppercase">' + socket.username + '</strong>: '+msg);
   })
+  socket.on("image", function (msg) {
+    socket.broadcast.to(socket.room).emit("image", msg);
+  });
 
 
 

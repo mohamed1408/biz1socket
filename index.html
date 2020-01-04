@@ -2,6 +2,20 @@
 <html>
 
 <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="favicon.png">
+  <title>emoji-picker Demo</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+    integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+  <!-- Begin emoji-picker Stylesheets -->
+  <!-- <link href="../lib/css/emoji.css" rel="stylesheet"> -->
+  <!-- End emoji-picker Stylesheets -->
   <style>
     * {
       margin: 0;
@@ -61,13 +75,14 @@
 <body>
 
   <!-- File input and image output -->
-  <input type="text" id="nameinput" placeholder="enter your name"><input type="text" id="roominput" placeholder="enter room name"><button id="joinbtn">Join</button>
+  <input type="text" id="nameinput" placeholder="enter your name"><input type="text" id="roominput"
+    placeholder="enter room name"><button id="joinbtn">Join</button>
   <!-- <input type="file" id="input"> -->
   <!-- <input type="text" id="inputtxt">
   <input type="text" id="inputtxt1"> -->
   <ul id="messages" style="font-size: larger;"></ul>
   <div id="chatdiv">
-    <input id="m" autocomplete="off" /><button type="submit" id="sendbtn">Send</button>
+    <input type="file" id="input"><input id="m" autocomplete="off" /><button type="submit" id="sendbtn">Send</button>
   </div>
   <!-- Client Code -->
   <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
@@ -91,14 +106,14 @@
       msg = event.target.value;
     })
     document.getElementById("joinbtn").addEventListener("click", function (event) {
-      socket.emit("join", $('#roominput').val(),$('#nameinput').val());
+      socket.emit("join", $('#roominput').val(), $('#nameinput').val());
       $('#roominput').hide();
       $('#joinbtn').hide();
       $('#nameinput').hide();
     })
     document.getElementById("sendbtn").addEventListener("click", function (event) {
-      socket.emit("chat",$('#m').val());
-      $('#messages').append($('<li>').html("<strong>YOU</strong>:"+ $('#m').val()));
+      socket.emit("chat", $('#m').val());
+      $('#messages').append($('<li>').html("<strong>YOU</strong>:" + $('#m').val()));
       window.scrollTo(0, document.body.scrollHeight);
       msgtxtbx.value = "";
     })
@@ -107,22 +122,23 @@
     //   console.log(txt)
     //   socket.emit("text", txt);
     // });
-    // document.getElementById("input").addEventListener("change", function (event) {
-    //   // Prepeare file reader
-    //   var file = event.target.files[0];
-    //   var fileReader = new FileReader();
-    //   fileReader.onloadend = function (event) {
-    //     // Send an image event to the socket
-    //     var image = event.target.result
-    //     output.src = image;
-    //     socket.emit("image", image);
-    //   };
-    //   // Read file
-    //   fileReader.readAsDataURL(file);
-    // })
-    // socket.on("image", function (image) {
-    //   output.src = image;
-    // });
+    document.getElementById("input").addEventListener("change", function (event) {
+      // Prepeare file reader
+      var file = event.target.files[0];
+      var fileReader = new FileReader();
+      fileReader.onloadend = function (event) {
+        // Send an image event to the socket
+        var image = event.target.result
+        $('#messages').append($('<li>').html(`<img src=${image}>`));
+        socket.emit("image", image);
+      };
+      // Read file
+      fileReader.readAsDataURL(file);
+    })
+    socket.on("image", function (image) {
+      // output.src = image;
+      $('#messages').append($('<li>').html(`<img src=${image}>`));
+    });
     // socket.on("text", function (text) {
     //   txtinput1.value = text;
     // });
