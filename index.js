@@ -23,7 +23,7 @@ io.on("connection", function (socket) {
   //   previousId = currentId;
   // };
   // Register "join" events, requested by a connected client
-  socket.on("join", function (room,username) {
+  socket.on("join", function (room, username) {
     // join channel provided by client
     socket.join(room)
     socket.room = room;
@@ -39,11 +39,11 @@ io.on("connection", function (socket) {
     //   // Broadcast the "image" event to all other clients in the room
     //   socket.broadcast.to(room).emit("text", msg);
     // });
-    });
-    socket.on("chat", function (msg) {
-      // console.log(room)
-      // Broadcast the "image" event to all other clients in the room
-      socket.broadcast.to(socket.room).emit("chat", '<strong style="text-transform:uppercase">' + socket.username + '</strong>: '+msg);
+  });
+  socket.on("chat", function (msg) {
+    // console.log(room)
+    // Broadcast the "image" event to all other clients in the room
+    socket.broadcast.to(socket.room).emit("chat", '<strong style="text-transform:uppercase">' + socket.username + '</strong>: ' + msg);
   })
   socket.on("image", function (msg) {
     socket.broadcast.to(socket.room).emit("image", msg);
@@ -56,3 +56,26 @@ io.on("connection", function (socket) {
   //   socket.emit("document", documents[docId]);
   // })
 });
+/////PEER/////
+// var PeerServer = require('peer').PeerServer;
+// var server1 = PeerServer({port: 9000, path: '/myapp'});
+
+// const express = require('express');
+const app = express();
+const { ExpressPeerServer } = require('peer');
+
+app.get('/', (req, res, next) => { res.send('Hello world!'); });
+
+// =======
+
+const server1 = app.listen(9000);
+
+const options = {
+  debug: true
+}
+
+const peerserver = ExpressPeerServer(server1, options);
+peerserver.on('connection', function (id) {
+  console.log(id);
+})
+app.use('/api', peerserver);

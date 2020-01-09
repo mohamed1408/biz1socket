@@ -70,6 +70,7 @@
   <meta charset="utf-8">
   <title>SocketIO Client</title>
   <script src="/socket.io/socket.io.js"></script>
+  <script src="https://unpkg.com/peerjs@1.0.0/dist/peerjs.min.js"></script>
 </head>
 
 <body>
@@ -83,7 +84,10 @@
   <ul id="messages" style="font-size: larger;"></ul>
   <div id="chatdiv">
     <input type="file" id="input"><input id="m" autocomplete="off" /><button type="submit" id="sendbtn">Send</button>
-  </div>
+  </div><br>
+  <button id="start">start</button>
+  <button id="join">join</button>
+  <button id="senddata">send</button>
   <!-- Client Code -->
   <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
   <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
@@ -117,11 +121,6 @@
       window.scrollTo(0, document.body.scrollHeight);
       msgtxtbx.value = "";
     })
-    // document.getElementById("inputtxt").addEventListener("input", function (event) {
-    //   var txt = event.target.value;
-    //   console.log(txt)
-    //   socket.emit("text", txt);
-    // });
     document.getElementById("input").addEventListener("change", function (event) {
       // Prepeare file reader
       var file = event.target.files[0];
@@ -146,6 +145,61 @@
       $('#messages').append($('<li>').html(text));
       window.scrollTo(0, document.body.scrollHeight);
     });
+    //////////////////
+    var peer = null;
+    var conn = null;
+    var peerid = null;
+    document.getElementById("start").addEventListener("click", function (event) {
+      peer = new Peer('peer1', { host: 'localhost', port: 9000, path: '/api' });
+      peer.on('open', function (id) {
+        peerid = id;
+      });
+      peer.on('connection', function (c) {
+        if (conn) {
+          c.close()
+          return
+        }
+        conn = c
+        conn.on('data', function (data) {
+          console.log(data);
+        });
+        conn.on('close', function (data) {
+          console.log(data);
+        });
+      });
+    });
+    document.getElementById("join").addEventListener("click", function (event) {
+      peer = new Peer('peer2', { host: 'localhost', port: 9000, path: '/api' });
+      peer.on('open', function (id) {
+        peerid = id;
+      });
+      peer.on('open', function () {
+        conn = peer.connect('peer1', {
+          reliable: true
+        });
+        conn.on('open', function () {
+          conn.on('data', function (data) {
+            console.log(data);
+          });
+          conn.on('close', function (data) {
+            console.log(data);
+          });
+        });
+      });
+    });
+    document.getElementById("senddata").addEventListener("click", function (event) {
+      conn.send('hiiiii');
+    });
+    // on open will be launch when you successfully connect to PeerServer
+    // con.send('hiiiii');
+    // conn.emit('')
+    // var conn = peer.connect('another-peers-id');
+    // peer.on('connection', function (conn) {
+    //   conn.on('data', function (data) {
+    //     // Will print 'hi!'
+    //     console.log(data);
+    //   });
+    // });
   </script>
 </body>
 
