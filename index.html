@@ -142,6 +142,7 @@
         $('#nameinput').hide();
         $('#chatdiv').removeAttr('hidden');
         $('#m').focus();
+        $('#messages').append($('<li>').html("<p style='text-align:center'><strong>ROOM</strong>:" + $('#roominput').val()));
       }
     });
     document.getElementById("joinbtn").addEventListener("click", function (event) {
