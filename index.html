@@ -112,7 +112,7 @@
   <!-- <input type="text" id="inputtxt">
   <input type="text" id="inputtxt1"> -->
   <ul id="messages" style="font-size: larger;"></ul>
-  <div id="chatdiv">
+  <div id="chatdiv" hidden>
     <input type="file" id="input"><input id="m" autocomplete="off" /><button type="submit" id="sendbtn">Send</button>
   </div><br>
   <!-- PEER -->
@@ -140,6 +140,7 @@
         $('#joinbtn').hide();
         $('#nameinput').hide();
         $('#m').focus();
+        $('#chatdiv').removeAttr('hidden');
       }
     });
     document.getElementById("joinbtn").addEventListener("click", function (event) {
@@ -147,6 +148,7 @@
       $('#roominput').hide();
       $('#joinbtn').hide();
       $('#nameinput').hide();
+      $('#chatdiv').show();
     });
     document.getElementById("m").addEventListener("keydown", function (event) {
       if (event.keyCode === 13) {
@@ -173,6 +175,7 @@
         var image = event.target.result
         $('#messages').append($('<li>').html(`<img src=${image}>`));
         socket.emit("image", image);
+        $('#m').focus();
       };
       // Read file
       fileReader.readAsDataURL(file);
