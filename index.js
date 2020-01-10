@@ -61,6 +61,7 @@ io.on("connection", function (socket) {
 // var server1 = PeerServer({port: 9000, path: '/myapp'});
 
 // const express = require('express');
+const PORT1 = process.env.PORT || 9000;
 const app = express();
 const { ExpressPeerServer } = require('peer');
 
@@ -68,7 +69,7 @@ app.get('/', (req, res, next) => { res.send('Hello world!'); });
 
 // =======
 
-const server1 = app.listen(9000);
+const server1 = app.listen(PORT1);
 
 const options = {
   debug: true

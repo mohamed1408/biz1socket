@@ -150,7 +150,7 @@
     var conn = null;
     var peerid = null;
     document.getElementById("start").addEventListener("click", function (event) {
-      peer = new Peer('peer1', { host: 'localhost', port: 9000, path: '/api' });
+      peer = new Peer('peer1', { host: 'https://biz1socket-app.herokuapp.com/', port: 9000, path: '/api' });
       peer.on('open', function (id) {
         peerid = id;
       });
@@ -169,7 +169,7 @@
       });
     });
     document.getElementById("join").addEventListener("click", function (event) {
-      peer = new Peer('peer2', { host: 'localhost', port: 9000, path: '/api' });
+      peer = new Peer('peer2', { host: 'https://biz1socket-app.herokuapp.com/', port: 9000, path: '/api' });
       peer.on('open', function (id) {
         peerid = id;
       });
@@ -188,7 +188,7 @@
       });
     });
     document.getElementById("senddata").addEventListener("click", function (event) {
-      conn.send('hiiiii');
+      peer.socket.send({id:'hii'})
     });
     // on open will be launch when you successfully connect to PeerServer
     // con.send('hiiiii');
