@@ -97,6 +97,13 @@
       ;
       padding: 10px;
     }
+
+    #discbtn {
+      width: 10%;
+      background: rgb(130, 224, 255);
+      padding: 10px;
+    }
+
   </style>
   <meta charset="utf-8">
   <title>SocketIO Client</title>
@@ -108,7 +115,7 @@
 
   <!-- File input and image output -->
   <input type="text" id="nameinput" placeholder="enter your name" autofocus><input type="text" id="roominput"
-    placeholder="enter room name"><button id="joinbtn">Join</button>
+    placeholder="enter room name"><button id="joinbtn">Join</button><button id="discbtn"onClick="window.location.reload();" hidden>Disconnect</button>
   <!-- <input type="file" id="input"> -->
   <!-- <input type="text" id="inputtxt">
   <input type="text" id="inputtxt1"> -->
@@ -141,6 +148,7 @@
         $('#joinbtn').hide();
         $('#nameinput').hide();
         $('#chatdiv').removeAttr('hidden');
+        $('#discbtn').removeAttr('hidden');
         $('#m').focus();
         $('#messages').append($('<li>').html("<p style='text-align:center'><strong>ROOM</strong>:" + $('#roominput').val()));
       }
@@ -193,7 +201,7 @@
       $('#messages').append($('<li>').html(text));
       window.scrollTo(0, document.body.scrollHeight);
     });
-    //////////////////PEER//////////////
+//////////////////PEER//////////////
     // var peer = null;
     // var conn = null;
     // var peerid = null;

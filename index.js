@@ -28,6 +28,7 @@ io.on("connection", function (socket) {
     socket.join(room)
     socket.room = room;
     socket.username = username;
+    socket.broadcast.to(socket.room).emit("chat", '🔵 <i>' + socket.username + ' join the chat..</i>');
     // Register "image" events, sent by the client
     // socket.on("image", function (msg) {
     //   console.log(msg)
@@ -48,8 +49,12 @@ io.on("connection", function (socket) {
   socket.on("image", function (msg) {
     socket.broadcast.to(socket.room).emit("image", msg);
   });
-
-
+  socket.on('disconnect',function(un){
+    socket.broadcast.to(socket.room).emit("chat", '🔴 <i>' + socket.username + ' left the chat..</i>');
+  })
+  socket.on('leave',function(un){
+    socket.leave(socket.username);
+  })
 
   // socket.on("getDoc", function (docId) {
   //   safeJoin(docId);
