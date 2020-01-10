@@ -93,7 +93,8 @@
     #joinbtn {
       width: 9%;
       background: rgb(130, 224, 255);
-      border: 1 solid #000;;
+      border: 1 solid #000;
+      ;
       padding: 10px;
     }
   </style>
@@ -106,7 +107,7 @@
 <body>
 
   <!-- File input and image output -->
-  <input type="text" id="nameinput" placeholder="enter your name"autofocus><input type="text" id="roominput"
+  <input type="text" id="nameinput" placeholder="enter your name" autofocus><input type="text" id="roominput"
     placeholder="enter room name"><button id="joinbtn">Join</button>
   <!-- <input type="file" id="input"> -->
   <!-- <input type="text" id="inputtxt">
@@ -139,8 +140,8 @@
         $('#roominput').hide();
         $('#joinbtn').hide();
         $('#nameinput').hide();
-        $('#m').focus();
         $('#chatdiv').removeAttr('hidden');
+        $('#m').focus();
       }
     });
     document.getElementById("joinbtn").addEventListener("click", function (event) {
