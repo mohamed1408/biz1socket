@@ -57,26 +57,22 @@ io.on("connection", function (socket) {
   // })
 });
 /////PEER/////
-// var PeerServer = require('peer').PeerServer;
-// var server1 = PeerServer({port: 9000, path: '/myapp'});
+// const PORT1 = process.env.PORT || 9000;
+// const app = express();
+// const { ExpressPeerServer } = require('peer');
 
-// const express = require('express');
-const PORT1 = process.env.PORT || 9000;
-const app = express();
-const { ExpressPeerServer } = require('peer');
+// app.get('/', (req, res, next) => { res.send('Hello world!'); });
 
-app.get('/', (req, res, next) => { res.send('Hello world!'); });
+// // =======
 
-// =======
+// const server1 = app.listen(PORT1);
 
-const server1 = app.listen(PORT1);
+// const options = {
+//   debug: true
+// }
 
-const options = {
-  debug: true
-}
-
-const peerserver = ExpressPeerServer(server1, options);
-peerserver.on('connection', function (id) {
-  console.log(id);
-})
-app.use('/api', peerserver);
+// const peerserver = ExpressPeerServer(server1, options);
+// peerserver.on('connection', function (id) {
+//   console.log(id);
+// })
+// app.use('/api', peerserver);
